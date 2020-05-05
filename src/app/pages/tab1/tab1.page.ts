@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NewsService } from '../../services/news.service';
 import { Headlines, Article } from '../../interfaces/interfaces';
 
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -11,10 +13,15 @@ export class Tab1Page implements OnInit {
 
   news: Article[] = [];
 
-  constructor( private newsService: NewsService ) {}
+  constructor( private newsService: NewsService,
+               private iab: InAppBrowser ) {}
 
   ngOnInit() {
     this.loadNews();
+  }
+
+  openGithub() {
+    const browser = this.iab.create('https://github.com/SamuelAbade/NewsApp', '_system');
   }
 
   loadData(event) {
