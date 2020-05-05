@@ -1,0 +1,15 @@
+<ion-header [translucent]="true" no-border>
+  <ion-toolbar>
+    <ion-title>
+      NewsApp by @SamuelAbade
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-news [news]="news"></app-news>
+  <ion-infinite-scroll threshold="25%" [disabled]="true" position="bottom" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="lines" loadingText="Loading...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

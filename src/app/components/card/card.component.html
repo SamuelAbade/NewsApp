@@ -1,0 +1,20 @@
+<ion-card class="animated fadeIn fast">
+  <img *ngIf="news.urlToImage" (click)="openNews()" [src]="news.urlToImage"/>
+  <ion-card-header>
+    <ion-card-subtitle>
+      <ion-item class="ion-no-padding">
+        <span class="text-primary" *ngIf="favoritesPage">
+          <ion-icon name="heart"></ion-icon>
+        </span>
+        <span class="text-primary" *ngIf="favoritesPage === false"> {{ index + 1 }}. </span>
+        <span class="source-name"> {{ news.source.name }} </span>
+        <ion-button (click)="presentActionSheet()" fill="clear" class="button" slot="end" size="small" icon-only>
+          <ion-icon name="caret-down-outline" color="primary" class="icon"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-card-subtitle>
+    <ion-card-title (click)="openNews()">
+      {{ news.title }}
+    </ion-card-title>
+  </ion-card-header>
+</ion-card>

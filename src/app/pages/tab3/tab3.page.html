@@ -1,0 +1,21 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>
+      Favorites
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-slides [options]="sliderOptions" *ngIf="localDataService.news.length === 0">
+    <ion-slide>
+      <ion-icon name="alert-circle-outline" size="large"></ion-icon>
+      <br>
+      <ion-label>
+        There's no favorites.
+      </ion-label>
+    </ion-slide>
+  </ion-slides>
+
+  <app-news *ngIf="localDataService.news.length > 0" [favoritesPage]="true" [news]="localDataService.news"></app-news>
+</ion-content>
