@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Article } from '../../interfaces/interfaces';
-import { ActionSheetController, ToastController } from '@ionic/angular';
+import { ActionSheetController, ToastController, Platform } from '@ionic/angular';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
@@ -17,11 +17,14 @@ export class CardComponent implements OnInit {
   @Input() index: number;
   @Input() favoritesPage;
 
+  windowNavigate = (navigator as any);
+
   constructor( private actionSheetController: ActionSheetController,
                private toastController: ToastController,
                private iab: InAppBrowser,
                private socialSharing: SocialSharing,
-               private localdataService: LocalDataService ) { }
+               private localdataService: LocalDataService,
+               private platform: Platform ) { }
 
   ngOnInit() {}
 
@@ -69,9 +72,7 @@ export class CardComponent implements OnInit {
         text: 'Share',
         icon: 'share',
         handler: () => {
-          this.socialSharing.share(this.news.title, this.news.source.name, '', this.news.url).catch(() => {
-            this.toast('Failed to share. Try again.', 'danger');
-          });
+          this.shareNews();
         }
       },
         favoritesButton,
@@ -84,5 +85,22 @@ export class CardComponent implements OnInit {
     });
 
     await actionSheet.present();
+  }
+
+  shareNews() {
+    if ( this.platform.is('cordova') ) {
+      this.socialSharing.share(this.news.title, this.news.source.name, '', this.news.url).catch(() => {
+        this.toast('Failed to share. Try again.', 'danger');
+      });
+    } else {
+      if (this.windowNavigate.share) {
+        this.windowNavigate.share({
+          title: this.news.title,
+          url: this.news.url,
+        })
+          .then(() => console.log('Successful share'))
+          .catch((error) => console.log('Error sharing', error));
+      }
+    }
   }
 }
